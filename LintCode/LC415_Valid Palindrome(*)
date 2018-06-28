@@ -1,0 +1,40 @@
+public class Solution {
+    /**
+     * @param s: A string
+     * @return: Whether the string is a valid palindrome
+     */
+    public boolean isPalindrome(String s) {
+        // write your code here
+        s = s.toLowerCase();
+        int left = 0;
+        int right = s.length() - 1;
+        //use character.isLetterOrDigit 
+        
+        while (left < right) {
+            char chLeft = s.charAt(left);
+            char chRight = s.charAt(right);
+            
+            boolean isChLeftAlphaOrNumberic = chLeft >='0' && chLeft <= '9' 
+                    || chLeft >= 'a' && chLeft <= 'z';
+            if (!isChLeftAlphaOrNumberic) {
+                left ++;
+                continue;
+            }
+            
+            boolean isChRighttAlphaOrNumberic = chRight >='0' && chRight <= '9' 
+                    || chRight >= 'a' && chRight <= 'z';
+            if (!isChRighttAlphaOrNumberic) {
+                right --;
+                continue;
+            }
+
+            
+            if (chLeft != chRight) {
+                return false;
+            }
+            left ++;
+            right --;
+        }
+        return true;
+    }
+}
