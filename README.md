@@ -1,3 +1,4 @@
 # LeedCode-LintCode
 
-# my solution of Leedcode and Lintcode. I use both of them, one follow the class, one is my own practice.
+Recording solution of Leedcode and Lintcode. 
+Using both of them, one for following the class, and another one is my own practice.
