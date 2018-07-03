@@ -1,0 +1,87 @@
+Description
+A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
+
+Return a deep copy of the list.
+
+
+/**
+ * Definition for singly-linked list with a random pointer.
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ */
+public class Solution {
+    /**
+     * @param head: The head of linked list with a random pointer.
+     * @return: A new head of a deep copy of the list.
+     */
+    public RandomListNode copyRandomList(RandomListNode head) {
+        // write your code here
+        
+        //e.g. 
+        // 1 -> 2 -> 3
+        // 1 randomPointer is 3, 2 randomPointer 1, 3 randomPointer is null;
+        
+        // 深度拷贝： 不仅满足next的关系，也要满足randimPointer的关系
+        // 1' -> 2' -> 3'
+        // 1' randomPointer is 3', 2' randomPointer is 1', 3' randomPointer is null
+        
+        // 方法1 - Hashtable
+        // 哈希表 [1, 1'] [2,2'] [3, 3'] 一一建立起映射 Hashtable, Hashmap -- 不满足O(1) space
+        // 1 find 1', 1 find 3, 3 find 3', 1' -> 3'
+        
+        
+        // 方法2 - 链表
+        // 1.. copy next
+        //1 -> 2 -> 3
+        //1 -> 1' -> 2 -> 2' -> 3 -> 3'
+        // 2.. copy random 
+        //1 -> 1'; 1 -> 3; 3 -> 3' ---> 1'->3'
+        // 3.. split
+        // 1' -> 2' -> 3'
+        
+        if (head == null) {
+            return null;
+        }
+        
+        copyNext(head);
+        copyRandom(head);
+        return split(head);
+        
+        
+    }
+    
+    private void copyNext(RandomListNode head){
+        while (head != null) {
+            RandomListNode newNode = new RandomListNode(head.label);
+            newNode.next = head.next;
+            newNode.random = head.random;
+            head.next = newNode;
+            head = head.next.next;
+        }
+    }
+    
+    private void copyRandom(RandomListNode head){
+        while(head != null) {
+            if (head.random != null){
+                head.next.random = head.random.next;
+            }
+            head = head.next.next;
+        }
+    }
+    
+    private RandomListNode split(RandomListNode head){
+        RandomListNode newHead = head.next;
+        while (head != null) {
+            RandomListNode temp = head.next;
+            head = temp.next;
+            if (temp.next != null) {
+                temp.next = temp.next.next;
+            }
+        }
+        
+        return newHead;
+    }
+}
