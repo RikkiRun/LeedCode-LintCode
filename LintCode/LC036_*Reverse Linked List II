@@ -1,0 +1,66 @@
+Description
+Reverse a linked list from position m to n.
+
+Given m, n satisfy the following condition: 1 ≤ m ≤ n ≤ length of list.
+
+
+/**
+ * Definition for ListNode
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+
+public class Solution {
+    /**
+     * @param head: ListNode head is the head of the linked list 
+     * @param m: An integer
+     * @param n: An integer
+     * @return: The head of the reversed ListNode
+     */
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        // write your code here
+        
+        if (head == null) {
+            return head;
+        }
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        
+        // find node right before the head of subList need reverse
+        ListNode reverseHead = dummy;
+        for (int i = 0; i < m - 1; i ++ ){
+            reverseHead = reverseHead.next;
+        }
+        
+        ListNode prev = reverseHead.next;
+        ListNode cur = prev.next;
+        ListNode front = reverseHead;
+        ListNode end = reverseHead.next;
+        
+        for(int i = m; i < n; i ++) {
+            ListNode temp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = temp;
+        }
+        
+        front.next = prev;
+        end.next = cur;
+        
+        //      1 [2<-3<-4(prev)]  5 (cur)
+        //       prev    cur
+        //dummy->1->[4->3->2]->5->NULL
+        //     front      end
+        
+        // 要进行拼接, 用 front 和 end 去保存需要拼接的节点
+        
+        return dummy.next;
+    }
+}
